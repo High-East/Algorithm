@@ -1,3 +1,5 @@
+# https://www.acmicpc.net/problem/4673
+
 from functools import reduce
 
 N = 10000

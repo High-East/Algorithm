@@ -1,45 +1,19 @@
-import sys
+# https://www.acmicpc.net/problem/2447
 
-N = int(sys.stdin.readline())
+def star(n, N, pattern):
+    s = []
+    cnt = list(range(1, n + 1))
+    for i in cnt:
+        if i in cnt[n // 3: (n // 3) * 2]:
+            s.append(pattern[i % len(pattern) - 1] + " " * len(pattern[0]) + pattern[i % len(pattern) - 1])
+        else:
+            s.append(pattern[i % len(pattern) - 1] * 3)
 
-
-def star(current=1, target=1, sample='*'):
-    if current == target:
-        return sample
-    sample = '*'
-    return star(current=current + 1, sample=sample)
-
-
-star(target=N // 3)
-
-
-sample = "***\n* *\n***"
-sample.split('\n')
-
-sample2 = f"{sample}{sample}{sample}"
-print(sample, sample, sep='')
-
-"**** ****"
-
-sample = '*'
-sample = [[sample for _ in range(3)] for _ in range(3)]
-sample[1][1] = ' '
-sample[1][1] = [[' ' for _ in range(3)] for _ in range(3)]
+    if n == N:
+        return s
+    else:
+        return star(n * 3, N, s)
 
 
-[sample[i] * 3 for i in range(3)]
-
-
-for i in range(3):
-    print(*sample[i])
-
-
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    print(*star(3, int(input()), ['*']), sep='\n')

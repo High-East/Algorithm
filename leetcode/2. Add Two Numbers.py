@@ -1,4 +1,3 @@
-# Definition for singly-linked list.
 from typing import Optional
 
 
@@ -13,33 +12,20 @@ class Solution:
         self, l1: Optional[ListNode], l2: Optional[ListNode]
     ) -> Optional[ListNode]:
         result = ListNode()
-        l1_pointer, l2_pointer, result_pointer = l1, l2, result  # Set initial pointer
-
-        extra_node = None
-        is_node = lambda x: x is not None
+        pointer = result
+        storage = 0
 
         while True:
-            total = sum(
-                [
-                    node.val
-                    for node in [l1_pointer, l2_pointer, extra_node]
-                    if is_node(node)
-                ]
-            )
-            q, r = divmod(total, 10)
-            result_pointer.val = r
+            val1 = l1.val if l1 is not None else 0
+            val2 = l2.val if l2 is not None else 0
+            storage, pointer.val = divmod(val1 + val2 + storage, 10)
 
-            extra_node = None
-            if q:
-                extra_node = ListNode(q)
+            l1 = l1.next if l1 is not None else None
+            l2 = l2.next if l2 is not None else None
 
-            # Update pointer
-            l1_pointer = l1_pointer.next if hasattr(l1_pointer, "next") else None
-            l2_pointer = l2_pointer.next if hasattr(l2_pointer, "next") else None
-
-            if not any([l1_pointer, l2_pointer, extra_node]):
+            if (l1 is None) and (l2 is None) and not storage:
                 break
+            pointer.next = ListNode()
+            pointer = pointer.next
 
-            result_pointer.next = ListNode()
-            result_pointer = result_pointer.next
         return result
